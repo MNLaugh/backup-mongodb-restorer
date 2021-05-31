@@ -39,6 +39,7 @@ var mongoClient = require("mongodb").MongoClient;
 var databaseUri;
 var fileNames = [];
 var jsonData = []; //this file will contain the loaded data
+var client; //global client object
 var db; //global db object
 var zipPath; // path/to/zipfile.zip
 var tempPath = __dirname + "/temp";
@@ -84,9 +85,9 @@ Restore.prototype.restore = function(done) {
 		else {
 
 			winston.info("Restore Script Connected to MongoDb successfully");
+			client = client;
 			const dbname = databaseUri.split("/").pop();
-			db = client.db(dbname);
-			
+			db = client.db(dbname);			
 			// first extract the zip file to tempPath
 			 extractZip();
 		}
@@ -122,7 +123,7 @@ function getAllCollections() {
 	fs.readdir(tempPath, function(error, results) {
 		if(error) { 
 			winston.error("error reading dir from restore " + error); 
-			db.close();
+			client.close();
 			if(d) d(); 
 			return;
 		}
@@ -157,7 +158,7 @@ function loadJsonData(z) {
 
 	if(z > fileNames.length - 1) { 
 		winston.info("Restoration procedure complete..."); 
-		db.close();
+		if (client && client.close) client.close();
 		fs.remove(tempPath, function(error){
 			if(error) { 
 				winston.error("error removing temporary path " + error); 
@@ -182,7 +183,7 @@ function loadJsonData(z) {
 		fs.readJson(tempPath + "/" + collectionName + ".json", function(error, fileData) {
 			if(error) { 
 					winston.error("error reading file in Restore " + fileNames[z] + ": " + error); 
-					db.close(); 
+					client.close(); 
 					if(d) d(); 
 					return; }
 			else {
@@ -227,7 +228,6 @@ function saveToDb(fileData, x, collectionName, callback) {
 	 }
 	 
 	 // winston.info("collection object = " + collection);
-	 console.log(db)
 	db.collection(collectionName).update({"_id":collection._id}, collection, {upsert: true}, function(error, result){
     
     if(error) { 
