@@ -226,7 +226,7 @@ function saveToDb(fileData, x, collectionName, callback) {
 	 }
 	 
 	 // winston.info("collection object = " + collection);
-
+	 console.log(db)
 	db.collection(collectionName).update({"_id":collection._id}, collection, {upsert: true}, function(error, result){
     
     if(error) { 
