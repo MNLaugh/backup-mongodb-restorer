@@ -65,6 +65,11 @@ async function restore (dbaseUri, pathToZipFile, useObjectID = true) {
 				await loadJsonData(0);
 			}
 		}
+		databaseUri = null;
+		fileNames = [];
+		client = null; //global client object
+		db = null; //global db object
+		zipPath = null; // path/to/zipfile.zip
 	} catch(e) {
 		client.close();
 		throw e;
