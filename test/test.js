@@ -1,9 +1,9 @@
 
 
 var expect = require('chai').expect;
-var databaseUri = "mongodb://127.0.0.1:27017/test";
+var databaseUri = "mongodb://172.23.129.6:27017/test";
 var zipFilePath = "./test/dev_19_9_16.21.40.28.zip";
-var Restore = require("../index");
+var restore = require("../index");
 var winston = require("winston");
 
 var useObjectID = false; //this tells the module that your collections uses the default generated mongodb ObjectID.
@@ -11,7 +11,7 @@ var useObjectID = false; //this tells the module that your collections uses the 
 // var done = function() { winston.info("Database Restoration Complete from Done Callback"); }
 
 //you can call this to do the restoration
- new Restore(databaseUri, zipFilePath, useObjectID).restore();
+ restore(databaseUri, zipFilePath, useObjectID).then(console.log).catch(console.error);
 
  //or you can specify a done callback in the for the restore method
  // new Restore(databaseUri, zipFilePath).restore(done);
