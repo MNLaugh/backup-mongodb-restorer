@@ -82,8 +82,13 @@ async function loadJsonData(z) {
 		var collectionName = fileNames[z];
 		//winston.info("collection under processing = " + collectionName + "\n");
 		const data = await readJson(`${tempPath}/${collectionName}.json`);
-		await saveToDb(data, 0, collectionName);
-		await loadJsonData(z + 1);
+		try {
+			await saveToDb(data, 0, collectionName);
+			await loadJsonData(z + 1);
+		} catch(e) {
+			await remove(tempPath);
+			throw e;
+		}
 	}
 }
 
