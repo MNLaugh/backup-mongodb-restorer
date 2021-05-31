@@ -74,7 +74,7 @@ Restore.prototype.restore = function(done) {
 
 	 d = done;
 
-	mongoClient.connect(databaseUri, function(error, dbObj) {
+	mongoClient.connect(databaseUri, function(error, client) {
 
 		if(error) { 
 			winston.error("ERROR CONNECTING TO MONGODB " + error);
@@ -84,7 +84,8 @@ Restore.prototype.restore = function(done) {
 		else {
 
 			winston.info("Restore Script Connected to MongoDb successfully");
-			db = dbObj;
+			const dbname = databaseUri.split("/").pop();
+			db = client.db(dbname);
 			
 			// first extract the zip file to tempPath
 			 extractZip();
