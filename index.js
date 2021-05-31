@@ -31,7 +31,7 @@ new Restore(databaseUri, filePath).restore();
 
 var fs = require("fs-extra");
 var path = require("path");
-var unzip = require("unzip");
+var unzip = require("unzipper");
 
 var mongodb = require("mongodb");
 var mongoClient = require("mongodb").MongoClient;
@@ -98,10 +98,10 @@ function extractZip() {
  	// this is the first thing to be done. It extracts the zip file
  	var unzipExtractor = unzip.Extract({ path: tempPath});
 	unzipExtractor.on("close", function() { 
-	winston.info("Extraction Complete . . .");
+		winston.info("Extraction Complete . . .");
 
-	// now invoke getAllCollections to read the dir for the .json files
-	getAllCollections();
+		// now invoke getAllCollections to read the dir for the .json files
+		getAllCollections();
 
 	});
 

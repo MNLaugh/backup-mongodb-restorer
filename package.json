@@ -22,8 +22,8 @@
   "license": "MIT",
   "dependencies": {
     "fs-extra": "1.0.0",
-    "mongodb": "2.1.18",
-    "unzip": "0.1.11",
+    "mongodb": "^3.6.9",
+    "unzipper": "0.10.11",
     "winston": "2.3.0"
   },
   "bugs": {
@@ -32,6 +32,6 @@
   "homepage": "https://github.com/SeunMatt/backup-mongodb-restorer#readme",
   "devDependencies": {
     "chai": "^3.5.0",
-    "mocha": "^3.0.2"
+    "mocha": "^8.4.0"
   }
 }
